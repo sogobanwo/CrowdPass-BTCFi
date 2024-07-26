@@ -32,13 +32,13 @@ Provide step-by-step instructions on how to get a development environment runnin
 
 ```bash
 git clone https://github.com/sogobanwo/CrowdPass-BTCFi.git
-cd host-It
+cd CrowdPass-BTCFi/frontend
 npm install
 npm run dev
 ```
 
 ## Acknowledgments
 
-- Web3Bridge Team.
+- CoreDao Technical Ambassadors ( Daniel Joseph Tiya and Ajidokwu Sabo )
 
 Hacked By CrowdPass Team
