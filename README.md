@@ -1,6 +1,6 @@
 # <h1 align="center"> CrowdPass | Create and Manage Your Events Seamlessly </h1>
 
-
+![image](https://github.com/user-attachments/assets/d7ec0259-886a-4e94-8932-5bf6a73c9852)
 
 ## Overview
 
