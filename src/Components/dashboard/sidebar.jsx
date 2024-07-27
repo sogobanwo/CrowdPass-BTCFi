@@ -4,6 +4,7 @@ import SidebarItem from "./sidebar-item";
 import { IoLogOutSharp, IoTicket } from "react-icons/io5";
 import { TiHome } from "react-icons/ti";
 import { FaFolderOpen } from "react-icons/fa";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
 const Sidebar = () => {
   const eventMainSidebarData = [
@@ -33,6 +34,7 @@ const Sidebar = () => {
       title: "POAPs",
     },
   ];
+  const { address } = useWeb3ModalAccount();
 
   return (
     <div className="hidden h-screen w-64 md:block fixed bg-deep-blue">
@@ -65,7 +67,7 @@ const Sidebar = () => {
             />
             <div className="flex flex-col gap-2 justify-center">
               <p className="text-base text-white font-normal">
-                0x123*****4567
+              {address.slice(0, 5)}*****{address.slice(36, 40)}
               </p>
               <p className="text-base text-white font-normal">0xgabriel.eth</p>
             </div>

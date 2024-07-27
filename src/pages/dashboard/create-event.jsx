@@ -1,11 +1,27 @@
-import React from 'react'
+import React, {  useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../Components/shared/card'
 import { Button } from '../../Components/shared/button'
 import Layout from '../../Components/dashboard/layout'
 
 
+
 const CreateEvent = () => {
- 
+
+
+    const [formData, setFormData] = useState({
+        theme: '',
+        total_ticket: '',
+        type: '',
+        startTime: '',
+        endTime: '',
+        ticketPrice: ''
+    })
+    
+    const inputChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState, [e.target.name]: e.target.value
+        }))
+    }
 
     return (
         <Layout>
@@ -84,7 +100,7 @@ const CreateEvent = () => {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">
-                        <Button onClick={handleSubmit} className="text-primary hover:text-deep-blue bg-deep-blue ">Create Event</Button>
+                        <Button className="text-primary hover:text-deep-blue bg-deep-blue ">Create Event</Button>
                     </CardFooter>
                 </Card>
             </div>

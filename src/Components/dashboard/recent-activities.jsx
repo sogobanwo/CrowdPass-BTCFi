@@ -46,7 +46,7 @@ const RecentActivities = () => {
   });
   return (
     <div className="col-span-12 my-8">
-      <div className="bg-white rounded shadow-2xl p-4">
+      <div className="bg-base-white rounded shadow-2xl p-4">
         <div className="flex justify-between items-center border-b-4 p-4">
           <h4 className="text-xl font-semibold flex gap-2 text-deep-blue">
             <Activity /> Recent Activities

@@ -35,18 +35,16 @@ const App = () => {
           element={isConnected ?  <EventDetails /> : <Navigate to="/" />} 
         />
         <Route
-          path="/create-events"
+          path="/create-event"
           element={isConnected ?  <CreateEvent /> : <Navigate to="/" />} 
         />
         <Route
           path="/tickets"
-          elem
-          ent={isConnected ?  <Tickets /> : <Navigate to="/" />} 
+          element={isConnected ?  <Tickets /> : <Navigate to="/" />} 
         />
         <Route
           path="/poap"
-          elem
-          ent={isConnected ?  <Poap /> : <Navigate to="/" />} 
+          element={isConnected ?  <Poap /> : <Navigate to="/" />} 
         />
       </Routes>
   );
