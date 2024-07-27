@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Layout from "../../Components/dashboard/layout";
 import { Card } from "../../Components/shared/card";
 import {
@@ -13,18 +13,39 @@ import {
   User,
 } from "lucide-react";
 import { MdLiveTv } from "react-icons/md";
+import { epochToDatetime } from "datetime-epoch-conversion";
 
 const EventDetails = () => {
+
+  const [formStep, setFormStep] = useState(0)
+  const [email, setEmail] = useState("")
+
+  const [qrLink, setQrLink] = useState("")
+
+  const { address } = useWeb3ModalAccount()
+  const { walletProvider } = useWeb3ModalProvider()
+  const provider = new ethers.BrowserProvider(walletProvider)
+
+  const data = {
+    eventId: "1",
+    eventName: "Test Event",
+    description: "This is a test event",
+    eventAddress: "12, jinadu street, lagos",
+    startTime: "1722114000",
+    endTime: "1722119000",
+    isCancelled: true,
+  };
+  const startDateResponse = epochToDatetime(data.startTime);
+  const endDateResponse = epochToDatetime(data.endTime);
+
   return (
     <Layout>
-      <h1 className="text-3xl text-deep-blue font-semibold">Event Details</h1>
-
       <Card className="shadow-2xl pb-6 my-4 rounded-xl">
         <div className="flex flex-col mx-10 mt-10">
-          <section className="rounded-2xl relative w-full h-[200px] sm:h-[300px] lg:h-[300px] overflow-hidden">
+          <section className="rounded-2xl relative w-full h-[200px] sm:h-[300px] lg:h-[350px] overflow-hidden">
             <img
               src="/assets/about-image-podcast.jpg"
-              className="absolute inset-0 w-full h-[300px] object-cover "
+              className="absolute inset-0 w-full h-[200px] sm:h-[300px] lg:h-[350px] object-cover "
             />
             <div className="absolute inset-0 bg-black/50 z-10" />
             <div className="relative z-20 h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 text-center text-base-white">
@@ -152,79 +173,6 @@ const EventDetails = () => {
                     </div>
                   </div>
                 </div>
-                {/* {address === `0x${data?.organizer.toString(16)}` ? (
-                  <>
-                    <div className="flex items-start gap-4 sm:gap-6">
-                      <HandCoins className="w-6 h-6 text-muted-foreground text-[#777D7F]" />
-                      <div className="flex flex-col gap-1">
-                        <div className="text-sm sm:text-base font-medium  text-[#777D7F]">
-                          Total Amount{" "}
-                        </div>
-                        <div className="text-muted-foreground text-sm text-slate-700 font-semibold">
-                          {String(
-                            data?.ticket_price * data?.tickets_sold
-                          ).slice(0, -18)}{" "}
-                          STRK
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-8">
-                      <RescheduleDialog id={id} />
-
-                      <Button
-                        onClick={cancelEvent}
-                        size="lg"
-                        className="w-full max-w-md text-primary bg-deep-blue hover:bg-primary hover:text-deep-blue"
-                      >
-                        Cancel Event
-                      </Button>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex">
-                    {Number(userTicket) === 0 ? (
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={handleApprove}
-                          size="lg"
-                          className="w-full max-w-md text-primary bg-deep-blue hover:bg-primary hover:text-deep-blue"
-                        >
-                          Give app approval
-                        </Button>
-                        <Button
-                          onClick={handleSubmit}
-                          size="lg"
-                          className="w-full max-w-md text-primary bg-deep-blue hover:bg-primary hover:text-deep-blue"
-                        >
-                          Get ticket
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex gap-3">
-                        {data?.is_canceled && !reclaimed && (
-                          <Button
-                            onClick={claim_ticket_refund}
-                            size="lg"
-                            className="w-full max-w-md text-primary bg-deep-blue hover:bg-primary hover:text-deep-blue"
-                          >
-                            Reclaim ticket refund
-                          </Button>
-                        )}
-                        <TicketDialog
-                          theme={feltToString(data?.theme)}
-                          startDate={startDateResponse.dateTime}
-                          endDate={endDateResponse.dateTime}
-                          location={feltToString(data?.event_type)}
-                          id={id}
-                          deployAccount={deployAccount}
-                          getStatus={getStatus}
-                          getAccount={getAccount}
-                          tba={tba}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )} */}
               </div>
             </div>
           </div>

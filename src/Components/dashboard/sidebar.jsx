@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SidebarItem from "./sidebar-item";
-import { IoLogOutSharp, IoTicket } from "react-icons/io5";
+import { IoTicket } from "react-icons/io5";
 import { TiHome } from "react-icons/ti";
 import { FaFolderOpen } from "react-icons/fa";
+import { FaAward } from "react-icons/fa6";
+import { MdCreateNewFolder } from "react-icons/md";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
+import ConnectButton from "../../Functions/useConnectionHook";
 
 const Sidebar = () => {
   const eventMainSidebarData = [
@@ -20,7 +23,7 @@ const Sidebar = () => {
     },
     {
       url: "/create-event",
-      icon: <FaFolderOpen className="w-6 h-6" />,
+      icon: <MdCreateNewFolder className="w-6 h-6" />,
       title: "Create event",
     },
     {
@@ -30,7 +33,7 @@ const Sidebar = () => {
     },
     {
       url: "/poap",
-      icon: <IoTicket className="w-6 h-6" />,
+      icon: <FaAward className="w-6 h-6" />,
       title: "POAPs",
     },
   ];
@@ -56,8 +59,7 @@ const Sidebar = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-8 mx-3">
-          <hr className="h-[2px] bg-primary w-56" />
+        <div className="flex flex-col items-center gap-3 mx-3">
           <div className="flex gap-3">
             <img
               src="/assets/profile-picture.png"
@@ -65,22 +67,12 @@ const Sidebar = () => {
               width={71}
               height={63}
             />
-            <div className="flex flex-col gap-2 justify-center">
-              <p className="text-base text-white font-normal">
-              {address.slice(0, 5)}*****{address.slice(36, 40)}
-              </p>
-              <p className="text-base text-white font-normal">0xgabriel.eth</p>
-            </div>
+           
           </div>
           <div>
-            <button
-              className={`normalLink py-3 px-10 mt-2 flex items-center rounded-l-full`}
-            >
-              <div>
-                <IoLogOutSharp className="w-6 h-6" />
-              </div>
-              <h4 className="ml-4 text-lg font-semibold">Log Out</h4>
-            </button>
+
+              <ConnectButton />
+
           </div>
         </div>
       </div>

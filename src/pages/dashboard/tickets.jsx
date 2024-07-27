@@ -1,10 +1,11 @@
 import React from "react";
 import Layout from "../../Components/dashboard/layout";
+import Ticket from "../../Components/dashboard/tickets";
 
 const Tickets = () => {
   return (
     <Layout>
-      <div>Tickets</div>
+      <Ticket />
     </Layout>
   );
 };
