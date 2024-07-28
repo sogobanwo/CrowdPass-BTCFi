@@ -5,9 +5,10 @@ import { Field, Formik } from "formik";
 import toast from "react-hot-toast";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
 import { ethers } from "ethers";
+import axiosInstance from '../../helpers/AxiosConfig';
 
 
-const MintPOAP = ({organizer}) => {
+const MintPOAP = ({organizer, eventid}) => {
     const [formStep, setFormStep] = useState(0)
     const [email, setEmail] = useState("")
     const [qrLink, setQrLink] = useState("")
@@ -40,7 +41,7 @@ const MintPOAP = ({organizer}) => {
                       try {
                         const signer = await provider.getSigner();
                         const signature = await signer.signMessage(JSON.stringify(values))
-                        const response = await axiosInstance.post(`/events/${eventId}/cliam`, formData);
+                        const response = await axiosInstance.post(`/events/${eventid}/cliam`, formData);
                         toast.remove(toast1)
                         const toast2 = toast.success("secret code sent to your mail")
                         if (toast2) {

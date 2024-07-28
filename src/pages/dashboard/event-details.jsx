@@ -19,40 +19,46 @@ import MintPOAP from "../../Components/dashboard/mint-poap-dialogue";
 import BuyTicketDialogue from "../../Components/dashboard/buy-ticket-dialogue";
 import useGetAllEvents from "../../Functions/useGetAllEvents";
 import useGetEventTicketSupply from "../../Functions/useGetEventTicketSupply";
+import useGetEventDetails from "../../Functions/useGetEventDetails"
+
 
 const EventDetails = () => {
   const events = useGetAllEvents();
   console.log(events);
   const param = useParams();
   const eventid = param.id;
-  console.log(eventid)
+  console.log(eventid);
   let event;
-  let startTime, endTime, eventId, eventAddress, eventName, organizer, description;
-
-  const totTickets = useGetEventTicketSupply();
+  let startTime,
+    endTime,
+    eventId,
+    eventAddress,
+    eventName,
+    organizer,
+    description;
 
   if (!events.loading) {
     event = events.data.find((event) => event.eventId === Number(eventid));
     if (event) {
       startTime = event.startTime;
       eventId = event.eventId;
-      endTime = event.endTime
+      endTime = event.endTime;
       eventName = event.eventName;
       organizer = event.organizer;
       eventAddress = event.eventAddress;
       description = event.description;
     }
   }
-  console.log(event);
-  const [formStep, setFormStep] = useState(0);
-  const [email, setEmail] = useState("");
+  
+  const evented = useGetEventDetails(eventid)
 
-  const [qrLink, setQrLink] = useState("");
+  console.log(event);
+  const {id} = useParams()
+
+  const ticketSupply = useGetEventTicketSupply(id)
 
   const { address } = useWeb3ModalAccount();
-  const { walletProvider } = useWeb3ModalProvider();
-  const provider = new ethers.BrowserProvider(walletProvider);
-
+ 
   const startDateResponse = epochToDatetime(startTime);
   const endDateResponse = epochToDatetime(endTime);
 
@@ -69,10 +75,10 @@ const EventDetails = () => {
             <div className="flex z-50  gap-5 h-[200px] sm:h-[300px] lg:h-[350px]">
               <div className="flex flex-col justify-between p-5">
                 <div className="flex z-50 gap-5">
-                  <CreateEventTicket organizer={organizer} />
-                  <CancelEvent organizer={organizer} />
-                  <MintPOAP organizer={organizer} />
-                  <BuyTicketDialogue organizer={organizer} />
+                  <CreateEventTicket organizer={organizer} eventid={eventid} />
+                  <CancelEvent organizer={organizer} eventid={eventid}/>
+                  <MintPOAP organizer={organizer} eventid={eventid} />
+                  <BuyTicketDialogue organizer={organizer} eventid={eventid} />
                 </div>
                 <div className="z-50 flex flex-col gap-2">
                   <h1 className="font-bold text-[#fff] w-full text-xl md:text-4xl mb-6">
@@ -83,14 +89,14 @@ const EventDetails = () => {
                   </p>
                   <div className="flex items-center gap-2">
                     <div className="rounded-full">
-                      <User className="text-white " />
+                      <User className="text-[#777D7F] " />
                     </div>
                     <h1 className="text-lg md:text-xl  text-[#fff] md:font-semibold">
                       {organizer}
                     </h1>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPinIcon className="text-white " />
+                    <MapPinIcon className="text-[#777D7F] " />
                     <div className=" text-[#fff] md:font-semibold text-lg md:text-xl">
                       {eventAddress}
                     </div>
@@ -136,17 +142,72 @@ const EventDetails = () => {
                 </div>
                 <div></div>
               </div>
-              <div className="p-4 md:w-[38%] msl:mx-[1%]">
-                <h1 className="text-xl font-medium mb-5">Event Location</h1>
-                <img
-                  src={"/assets/Basemap-image.png"}
-                  alt=""
-                  width={440}
-                  height={270}
-                  className="mb-5"
-                />
-                <h1 className="text-xl font-normal mb-2">{eventAddress}</h1>
-              </div>
+              {address == organizer ? (
+                <Card className="shadow-2xl p-4 mdl:w-auto msl:mx-[1%]">
+                  <div className="bg-deepBlue text-[#777D7F] border border-[#777D7F] w-full rounded-2xl p-6">
+                    <h1 className="mb-3">My Event Analysis</h1>
+                    <div className="flex justify-between">
+                      <div>
+                        <div>
+                          <small className="text-[10px]">Expected guests</small>
+                          <h1 className="text-2xl">{ticketSupply.data}</h1>
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <small className="text-[10px]">
+                            No. of ticket sold
+                          </small>
+                          <h1 className="text-2xl">{evented.data.soldTickets}</h1>
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <small className="text-[10px]">
+                            Available Tickets
+                          </small>
+                          <h1 className="text-2xl">
+                            {ticketSupply.data - evented.data.soldTickets}
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between my-5">
+                      <p>Ticket Sales</p>
+                      <p>Last 7 days</p>
+                    </div>
+                    <div className="border-b-[1px]">
+                      <img
+                        src={"/assets/chart-graphic.png"}
+                        alt="chart"
+                        width={"350"}
+                        height={"250"}
+                      />
+                    </div>
+                    <ul className="flex justify-between text-sm">
+                      <li>S</li>
+                      <li>M</li>
+                      <li>T</li>
+                      <li>W</li>
+                      <li>T</li>
+                      <li>F</li>
+                      <li>S</li>
+                    </ul>
+                  </div>
+                </Card>
+              ) : (
+                <div className="p-4 md:w-[38%] msl:mx-[1%]">
+                  <h1 className="text-xl font-medium mb-5">Event Location</h1>
+                  <img
+                    src={"/assets/Basemap-image.png"}
+                    alt=""
+                    width={440}
+                    height={270}
+                    className="mb-5"
+                  />
+                  <h1 className="text-xl font-normal mb-2">{eventAddress}</h1>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -5,8 +5,9 @@ import { Field, Formik } from "formik";
 import toast from "react-hot-toast";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
 import { ethers } from "ethers";
+import axiosInstance from '../../helpers/AxiosConfig';
 
-const CreateEventTicket = ({organizer}) => {
+const CreateEventTicket = ({organizer, eventid}) => {
     const { address } = useWeb3ModalAccount()
     const { walletProvider } = useWeb3ModalProvider()
     const provider = new ethers.BrowserProvider(walletProvider)
@@ -36,7 +37,7 @@ const CreateEventTicket = ({organizer}) => {
               try {
                 const signer = await provider.getSigner();
                 const signature = await signer.signMessage(JSON.stringify(values))
-                const response = await axiosInstance.post(`/events/${eventId}/create-event-ticket`, formData);
+                const response = await axiosInstance.post(`/events/${eventid}/create-event-ticket`, formData);
                 toast.remove(toast1)
                 toast.success("Tickets Created")
                 console.log(response.data.data)

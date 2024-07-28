@@ -15,8 +15,9 @@ import {
   useWeb3ModalProvider,
 } from "@web3modal/ethers/react";
 import { ethers } from "ethers";
+import axiosInstance from "../../helpers/AxiosConfig";
 
-const CancelEvent = ({organizer}) => {
+const CancelEvent = ({organizer, eventid}) => {
   const { address } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const provider = new ethers.BrowserProvider(walletProvider);
@@ -50,7 +51,7 @@ const CancelEvent = ({organizer}) => {
                     JSON.stringify(values)
                   );
                   const response = await axiosInstance.patch(
-                    `/events/${eventId}/cancel-event`,
+                    `/events/${eventid}/cancel-event`,
                     formData
                   );
                   toast.remove(toast1);
