@@ -52,9 +52,9 @@ const EnsRegistration = () => {
   return (
     <>
       <div className="bg-hero-image w-screen h-screen bg-cover">
-        <div className="bg-gray-950/90 z-10 w-full h-full ">
-          <div className="z-20 px-[2.5%] flex flex-col items-center py-10 lg:px-[5%] gap-10 w-full h-full ">
-            <div className="border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-[2rem] w-full max-w-sm bg-white ">
+        <div className="bg-gray-950/90 z-10 w-screen h-screen ">
+          <div className="z-20 px-[2.5%] flex flex-col items-center justify-center py-10 lg:px-[5%] gap-10 w-screen h-screen ">
+            <div className="border border-gray-200 rounded-lg shadow p-[2rem] w-full max-w-sm bg-base-white  ">
               <input
                 aria-describedby="file_input_help"
                 id="file_input"

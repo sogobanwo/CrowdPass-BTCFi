@@ -85,7 +85,7 @@ const CreateEvent = () => {
                 const signature = await signer.signMessage(
                   JSON.stringify(values)
                 );
-                console.log(values);
+                console.log(formData);
                 await axiosInstance.post("/events", formData);
                 toast.remove(toast1);
                 toast.success("Event Created");
@@ -98,8 +98,8 @@ const CreateEvent = () => {
             }}
           >
             {({
-              isSubmitting,
               values,
+              isSubmitting,
               errors,
               touched,
               handleChange,

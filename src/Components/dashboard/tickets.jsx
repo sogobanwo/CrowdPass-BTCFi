@@ -4,7 +4,6 @@ import useGetAllUserTicket from "../../Functions/useGetAllUserTicket";
 import { TbLoaderQuarter } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { epochToDatetime } from "datetime-epoch-conversion";
-import { Button } from "../shared/button";
 
 const Ticket = () => {
   const data = [
@@ -32,16 +31,54 @@ const Ticket = () => {
       ) : (
         <div className="flex flex-row gap-6 flex-wrap w-full">
           {tickets.data.length === 0 ? (
-            <div className="w-full h-[80vh] flex flex-col gap-8 justify-center items-center">
-              <h1 className="text-2xl text-deep-blue text-center">
-                You don't have a ticket yet explore events to buy ticket
-              </h1>
-              <Link to="/events">
-                <Button className="text-primary hover:text-deep-blue bg-deep-blue">
-                  Explore Events
-                </Button>
-              </Link>
-            </div>
+            data.map((items) => {
+              const {
+                eventId,
+                eventName,
+                description,
+                eventAddress,
+                startTime,
+                isCancelled,
+              } = items;
+              const startDateTime = epochToDatetime(startTime);
+              return (
+                <div className="bg-white mt-4  rounded-lg p-8 px-12 shadow-2xl max-w-md">
+                  <div className="flex flex-col items-center space-y-4">
+                    <div className="text-center">
+                      <h2 className="text-2xl font-bold">{eventName}</h2>
+                      <p className="text-gray-500 dark:text-gray-400">{`${startDateTime.dateTime}`}</p>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        {eventAddress}
+                      </p>
+                    </div>
+                    <div className="w-full max-w-[200px]">
+                      <QRCode
+                        size={200}
+                        bgColor="transparent"
+                        fgColor="black"
+                        value={description}
+                      />
+                    </div>
+                    <div className="text-center flex flex-col gap-3">
+                      <Link
+                        className="text-gray-500 dark:text-gray-400 text-sm"
+                        to={`/all-events/${eventId}`}
+                      >
+                        View event details
+                      </Link>
+                      {isCancelled ? (
+                        <p>
+                          Status:{" "}
+                          <span className="text-red-500">Event Cancelled</span>
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             tickets.data.map((items) => {
               const {
@@ -54,7 +91,6 @@ const Ticket = () => {
                 isCancelled,
               } = items;
               const startDateTime = epochToDatetime(startTime);
-              const endDateTime = epochToDatetime(endTime);
               return (
                 <div className="bg-white mt-4  rounded-lg p-8 px-12 shadow-2xl max-w-md">
                   <div className="flex flex-col items-center space-y-4">
